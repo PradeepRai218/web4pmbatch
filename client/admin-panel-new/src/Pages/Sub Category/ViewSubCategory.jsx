@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../../common/Breadcrumb'
 import { Link } from 'react-router-dom';
 import { MdFilterAltOff, MdModeEdit, MdModeEditOutline } from 'react-icons/md';
 import { CiEdit } from 'react-icons/ci';
 import { FaFilter } from 'react-icons/fa';
+import axios from 'axios';
 // import { MdModeEditOutline } from "react-icons/md";
 
 export default function ViewCategory() {
@@ -11,6 +12,32 @@ export default function ViewCategory() {
 
   let [activeFilter, setactiveFilter] = useState(true);
   let [activeDropDown, setactiveDropDown] = useState(false);
+
+
+   let [data, setData] = useState([]);
+  let [staticPath, setStaticPath] = useState("");
+  // let [orderModal, setOrderModal] = useState(false);
+
+
+  let baseURL = import.meta.env.VITE_APIBASEURL;
+  let getSubCategory = () => {
+    axios
+      .get(`${baseURL}subcategory/view`)
+      .then((res) => res.data)
+      .then((finalRes) => {
+        console.log(finalRes);
+
+        if (finalRes._status) {
+          setData(finalRes.subcategoryData);
+          setStaticPath(finalRes.staticPath);
+        }
+      });
+  };
+
+  useEffect(()=>{
+      getSubCategory()
+  },[])
+
   return (
     <section className="w-full">
 
@@ -124,7 +151,9 @@ export default function ViewCategory() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    {data.map((obj,index)=>{
+                      return(
+                         <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <td class="w-4 p-4">
                         <div class="flex items-center">
                           <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -134,24 +163,29 @@ export default function ViewCategory() {
                       <td scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
 
                         <div class="py-4">
-                          Shoe
+                          {obj.parentCategory.categoryName}
 
                         </div>
                       </td>
                       <td class=" py-4">
-                        Men
+                         {obj.subcategoryName}
 
                       </td>
 
                       <td class=" py-4">
-                        <img class="w-10 h-10 rounded-full" src="https://packshifts.in/images/iso.png" alt="Jese image" />
+                        <img class="w-10 h-10 rounded-full" src={staticPath+obj.subcategoryImage} alt="Jese image" />
                       </td>
                       <td class=" py-4">
-                        1
+                         {obj.subcategoryOrder}
                       </td>
                       <td class=" py-4">
-
-                        <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">Active</button>
+                          {
+                            obj.subcategoryStatus ?
+                            <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">Active</button>
+                            :
+                            <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">DeActive</button>
+                          }
+                        
                       </td>
                       <td class=" py-4">
 
@@ -164,6 +198,9 @@ export default function ViewCategory() {
                       </td>
                     </tr>
 
+                      )
+                    })}
+                   
 
 
 

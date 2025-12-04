@@ -4,12 +4,12 @@ import Breadcrumb from "../../common/Breadcrumb";
 import $ from "jquery";
 import "dropify/dist/css/dropify.min.css";
 import "dropify/dist/js/dropify.min.js";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function AddCategory() {
   let updateIdState = null;
-
+  let navigate=useNavigate()
   // update work
   let baseURL = import.meta.env.VITE_APIBASEURL;
   let saveCategory = (e) => {
@@ -21,6 +21,7 @@ export default function AddCategory() {
       .then((finalRes) => {
         if (finalRes._status) {
           e.target.reset();
+           navigate('/color/view')
         } else {
           alert(finalRes.error.categoryName);
         }
