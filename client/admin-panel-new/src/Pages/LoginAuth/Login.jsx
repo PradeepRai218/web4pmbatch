@@ -1,18 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { loginContext } from "../../context/MyGlobalData";
 
 export default function Login() {
+  let {adminId,setAdminId}  =useContext(loginContext)
+  console.log(adminId);
+  
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  let baseURL=import.meta.env.VITE_APIBASEURL;
+  const loginAdmin = (e) => {
+     e.preventDefault();
+     let obj = {
+      adminUserName: e.target.adminUserName.value,
+      adminPassword: e.target.adminPassword.value
+    
+    };
+    axios.post(`${baseURL}auth/login`, obj)
+        .then((res) => res.data)
+        .then((finalRes) => {
+            if(finalRes._status){
+              setAdminId(finalRes.adminData._id);
+              
+              navigate("/dashboard");
+            }
+            else{
+              alert(finalRes._message)
+            }
+            
+        });
 
-  const onSubmit = (data) => {
-    navigate("/dashboard");
+
+    // console.log(obj);
+    
+
+    // 
   };
 
   return (
@@ -29,8 +53,8 @@ export default function Login() {
           />
           
         </a>
-        <form autoComplete="off"
-          onSubmit={handleSubmit(onSubmit)}
+        <form onSubmit={loginAdmin} autoComplete="off"
+         
           className="w-[500px] bg-white rounded-lg shadow-2xl p-6 space-y-4"
         >
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
@@ -46,17 +70,16 @@ export default function Login() {
             <input
               type="email"
               id="email"
-              {...register("email", { required: "Email is required" })}
+              name="adminUserName"
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Enter Email"
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-            )}
+           
           </div>
           <div>
             <label
               htmlFor="password"
+              
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Password
@@ -64,13 +87,11 @@ export default function Login() {
             <input
               type="password"
               id="password"
-              {...register("password", { required: "Password is required" })}
+               name="adminPassword"
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Enter Password"
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-            )}
+           
           </div>
           <button
             type="submit"

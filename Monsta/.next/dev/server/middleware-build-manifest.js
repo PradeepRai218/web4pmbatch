@@ -1,0 +1,26 @@
+globalThis.__BUILD_MANIFEST = {
+  "pages": {
+    "/_app": []
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/92e6b_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_e495b060._.js",
+    "static/chunks/92e6b_next_dist_compiled_react-dom_45bff631._.js",
+    "static/chunks/92e6b_next_dist_compiled_react-server-dom-turbopack_7af41940._.js",
+    "static/chunks/92e6b_next_dist_compiled_next-devtools_index_44c3a7dd.js",
+    "static/chunks/92e6b_next_dist_compiled_5a8afee2._.js",
+    "static/chunks/92e6b_next_dist_client_1cb360c2._.js",
+    "static/chunks/92e6b_next_dist_67fa34a8._.js",
+    "static/chunks/92e6b_@swc_helpers_cjs_05c25214._.js",
+    "static/chunks/Desktop_backup_New folder_wsb-172_backend_ecom_Monsta_a0ff3932._.js",
+    "static/chunks/turbopack-Desktop_backup_New folder_wsb-172_backend_ecom_Monsta_05dcb0cf._.js"
+  ]
+};
+globalThis.__BUILD_MANIFEST.lowPriorityFiles = [
+"/static/" + process.env.__NEXT_BUILD_ID + "/_buildManifest.js",
+"/static/" + process.env.__NEXT_BUILD_ID + "/_ssgManifest.js"
+];

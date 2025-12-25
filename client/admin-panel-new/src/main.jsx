@@ -39,6 +39,7 @@ import ViewFaq from "./Pages/Faq/ViewFaq.jsx";
 import Users from "./Pages/Users.jsx";
 import Newsletters from "./Pages/NewsLetters.jsx";
 import Enquiry from "./Pages/Enquirys.jsx";
+import MyGlobalData from "./context/MyGlobalData.jsx";
 
 
 
@@ -140,6 +141,13 @@ const route = createBrowserRouter(
 );
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={route}></RouterProvider>
+
+  <MyGlobalData>
+    
+         <RouterProvider router={route}></RouterProvider>
+
+
+  </MyGlobalData>
+    
   </StrictMode>
 );
